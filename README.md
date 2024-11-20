@@ -1,4 +1,4 @@
-# Search Engine with Web Analytics - skeleton project
+# Search Engine with Web Analytics
 # IRWA Final Project
 
 ## Used data files in /data
