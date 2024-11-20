@@ -14,7 +14,7 @@ Open a terminal console and execute:
 ```
 cd <your preferred projects root directory>
 
-git clone https://github.com/irwa-labs/search-engine-web-app.git
+git clone https://github.com/albayerga/G_102_6_webapp
 
 ```
 
@@ -78,7 +78,7 @@ This will load the python virtualenv for the project.
 
 ### Installing Flask and other packages in your virtualenv
 ```bash
-pip install Flask pandas nltk faker
+pip install Flask pandas nltk faker httpagentparser
 ```
 
 Enjoy!
