@@ -1,10 +1,11 @@
 import pandas as pd
 
-from myapp.core.utils import build_terms, load_tweet_id_mapping, build_terms
+from myapp.core.utils import load_tweet_id_mapping, load_docs
 from myapp.search.objects import Document
 
 _corpus = {}
 tweet_id_to_doc_id = load_tweet_id_mapping()
+doc_id_to_terms = load_docs()
 
 def load_corpus(path) -> [Document]:
     """
@@ -37,13 +38,16 @@ def _load_corpus_as_dataframe(path):
     }, inplace=True)
     data_tweets['Hashtags'] = data_tweets['Tweet'].apply(lambda x: [i for i in x.split() if i.startswith("#")]) # add a column for hashtags
 
-    # add column terms and apply build_terms function to each row Tweet
-    # data_tweets['Terms'] = data_tweets['Tweet'].apply(lambda x: build_terms(x, 'english'))
+    # add column terms and add terms to each tweet - get terms from the doc_id_to_terms dictionary
+    data_tweets["Terms"] = data_tweets["Id"].map(doc_id_to_terms)
 
     # map the tweet id to the document id
     data_tweets["Id"] = data_tweets["Id"].map(tweet_id_to_doc_id)
 
-    columns = ['Id', 'Tweet', 'Date', 'Likes', 'Retweets', 'Url', 'Hashtags'] # add terms if necessary
+    # get username from user -> username
+    data_tweets["Username"] = data_tweets["user"].apply(lambda x: x["username"])
+
+    columns = ['Id', 'Tweet', 'Date', 'Likes', 'Retweets', 'Url', 'Hashtags', 'Terms', 'Username'] # add terms if necessary
     return data_tweets[columns]
 
 
@@ -56,6 +60,7 @@ def _row_to_doc_dict(row: pd.Series):
         row['Likes'], 
         row['Retweets'], 
         row['Url'], 
-        row['Hashtags']
-        # row['Terms']  # add it if necessary
+        row['Hashtags'],
+        row['Terms'],
+        row['Username']
     )

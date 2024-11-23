@@ -6,7 +6,7 @@ class Document:
     Original corpus data as an object
     """
 
-    def __init__(self, id, tweet, date, likes, retweets, url, hashtags): # add terms if necessary
+    def __init__(self, id, tweet, date, likes, retweets, url, hashtags, terms, username):
         self.id = id
         self.tweet = tweet
         self.date = date
@@ -14,6 +14,8 @@ class Document:
         self.retweets = retweets
         self.url = url
         self.hashtags = hashtags
+        self.terms = terms
+        self.username = username
 
 
     def to_json(self):
@@ -25,6 +27,8 @@ class Document:
             "retweets": self.retweets,
             "url": self.url,
             "hashtags": self.hashtags,
+            "terms": self.terms,
+            "username": self.username,
         }
 
     def __str__(self):
@@ -56,7 +60,7 @@ class StatsDocument:
 
 
 class ResultItem:
-    def __init__(self, id, tweet, date, likes, retweets, url, hashtags, ranking):
+    def __init__(self, id, tweet, date, likes, retweets, url, hashtags, username, ranking):
         self.id = id
         self.tweet = tweet
         self.date = date
@@ -64,4 +68,5 @@ class ResultItem:
         self.retweets = retweets
         self.url = url
         self.hashtags = hashtags
+        self.username = username
         self.ranking = ranking

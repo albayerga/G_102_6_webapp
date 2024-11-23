@@ -1,8 +1,8 @@
 import datetime
-import json
 import os
 from random import random
 import re
+import pickle
 
 import string
 from nltk.stem import PorterStemmer
@@ -12,7 +12,6 @@ from faker import Faker
 import pandas as pd
 
 fake = Faker()
-
 
 # fake.date_between(start_date='today', end_date='+30d')
 # fake.date_time_between(start_date='-30d', end_date='now')
@@ -64,6 +63,7 @@ def build_terms(line, lang):
 
     return line
 
+
 def load_tweet_id_mapping():
     full_path = os.path.realpath(__file__)
     path, filename = os.path.split(full_path)
@@ -75,3 +75,79 @@ def load_tweet_id_mapping():
     
     # Convert it to a dictionary for faster lookups
     return dict(zip(tweet_document_ids_map["id"], tweet_document_ids_map["docId"]))
+
+
+# docs is a dictionary with doc_id as key and the "terms" of each doc as value
+def load_docs():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/docs.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        docs = pickle.load(f)
+    
+    return docs
+
+
+# tweets_popularity is a dictionary with doc_id as key and the popularity score of each doc as value
+def load_tweets_popularity():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/tweets_popularity.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        tweets_popularity = pickle.load(f)
+    
+    return tweets_popularity
+
+# ---------------------------------------------------
+
+def load_df():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/df.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        df = pickle.load(f)
+    
+    return df
+
+
+def load_tf():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/tf.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        tf = pickle.load(f)
+    
+    return tf
+
+
+def load_idf():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/idf.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        idf = pickle.load(f)
+    
+    return idf
+
+
+# index is a dictionary with term as key and a list of doc_id with their positions as value
+def load_index():
+    full_path = os.path.realpath(__file__)
+    path, filename = os.path.split(full_path)
+    file_path = os.path.join(path, "../../data/index.pkl")
+    file_path = os.path.normpath(file_path)
+    
+    with open(file_path, 'rb') as f:
+        index = pickle.load(f)
+    
+    return index
