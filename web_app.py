@@ -82,7 +82,6 @@ def search_form_post():
     search_id = analytics_data.save_query_terms(search_query)
 
     results = search_engine.search(search_query, search_id, corpus)
-    results = []
 
     found_count = len(results)
     session['last_found_count'] = found_count
