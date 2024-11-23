@@ -2,7 +2,7 @@
 # IRWA Final Project
 
 ## Used data files in /data
-The indexing part of the project is done previously, so we stored the generated values to be able to perform our search engine faster, in real time and so the web application can be really used by users
+The indexing part of the project is done previously, so we stored the generated values to be able to perform our search engine faster, in real time and so the web application can be really used by users.
 
 - farmers-protest-tweets.json.gz: original data
 - tweet_document_ids_map.csv: maps tweet id to document id
