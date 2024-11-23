@@ -2,8 +2,13 @@
 # IRWA Final Project
 
 ## Used data files in /data
-- farmers-protest-tweets.json.gz
-- tweet_document_ids_map.csv
+The indexing part of the project is done previously, so we stored the generated values to be able to perform our search engine faster, in real time and so the web application can be really used by users
+
+- farmers-protest-tweets.json.gz: original data
+- tweet_document_ids_map.csv: maps tweet id to document id
+- docs.pkl: dictionary that contains doc_id as key and tweet terms (generated with build_terms) as value
+- index.pkl: dictionary that contains term as key and doc_ids with their term positioning as value
+- idf.pkl, tf.pkl, df.pkl, tweet_popularity.pkl: dictionaries with previously generated scores
 
 This projects contains the startup Flask files for developing a web application.
 
