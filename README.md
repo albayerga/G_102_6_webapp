@@ -10,7 +10,6 @@ The indexing part of the project is done previously, so we stored the generated 
 - index.pkl: dictionary that contains term as key and doc_ids with their term positioning as value
 - idf.pkl, tf.pkl, df.pkl, tweet_popularity.pkl: dictionaries with previously generated scores
 
-This projects contains the startup Flask files for developing a web application.
 
 ## To download this repo locally
 
