@@ -117,7 +117,10 @@ def doc_details():
 
     print("fact_clicks count for id={} is {}".format(clicked_doc_id, analytics_data.fact_clicks[clicked_doc_id]))
 
-    return render_template('doc_details.html')
+    # get the document from the corpus
+    doc = corpus[clicked_doc_id]
+
+    return render_template('doc_details.html', doc=doc, page_title="Document Details")
 
 
 @app.route('/stats', methods=['GET'])

@@ -6,7 +6,7 @@ class Document:
     Original corpus data as an object
     """
 
-    def __init__(self, id, tweet, date, likes, retweets, url, hashtags, terms, username):
+    def __init__(self, id, tweet, date, likes, retweets, url, hashtags, username):
         self.id = id
         self.tweet = tweet
         self.date = date
@@ -14,7 +14,6 @@ class Document:
         self.retweets = retweets
         self.url = url
         self.hashtags = hashtags
-        self.terms = terms
         self.username = username
 
 
@@ -27,7 +26,6 @@ class Document:
             "retweets": self.retweets,
             "url": self.url,
             "hashtags": self.hashtags,
-            "terms": self.terms,
             "username": self.username,
         }
 
@@ -66,7 +64,7 @@ class ResultItem:
         self.date = date
         self.likes = likes
         self.retweets = retweets
-        self.url = url
+        self.url = url # this is the url to the details page -> format: "doc_details?id={}&search_id={}&param2=2".format(item.id, search_id)
         self.hashtags = hashtags
         self.username = username
         self.ranking = ranking

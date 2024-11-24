@@ -37,7 +37,8 @@ def build_results(corpus: dict, search_id, search_query):
         doc_id = result[idx]
         # ranking is the index in the list because the result from search_popularity is already sorted
         item: Document = corpus[doc_id]
-        res.append(ResultItem(item.id, item.tweet, item.date, item.likes, item.retweets, item.url, item.hashtags, item.username, idx))
+        format_url = "doc_details?id={}&search_id={}&param2=2".format(item.id, search_id)
+        res.append(ResultItem(item.id, item.tweet, item.date, item.likes, item.retweets, format_url, item.hashtags, item.username, idx))
     res.sort(key=lambda doc: doc.ranking, reverse=True)
     return res
 
