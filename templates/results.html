@@ -6,16 +6,23 @@
     {% for item in results_list %}
         <div class="pb-3">
             <div class="doc-title">
-                <a href="{{ item.url }}">{{ item.title }}...
+                <a href="{{ item.url }}" class="font-weight-bold text-primary" >{{ item.tweet[:80] }}...
                 </a>
             </div>
             <div class="cited">
                 <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
             </div>
             <div class="doc-desc">
-                {{ item.doc_date }} — {{ item.description }}
+                {{ item.date }} — {{ item.tweet }}
             </div>
-
+            <div class="social-info">
+                <span class="likes">
+                    <i class="fas fa-thumbs-up"></i> {{ item.likes }}
+                </span>
+                <span class="retweets">
+                    <i class="fas fa-retweet"></i> {{ item.retweets }}
+                </span>
+            </div>
         </div>
 
     {% endfor %}
