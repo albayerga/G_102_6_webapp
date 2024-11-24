@@ -41,14 +41,12 @@ class StatsDocument:
     Original corpus data as an object
     """
 
-    def __init__(self, id, tweet, date, likes, retweets, url, hashtags):
+    def __init__(self, id, tweet, date, url, count):
         self.id = id
         self.tweet = tweet
         self.date = date
-        self.likes = likes
-        self.retweets = retweets
         self.url = url
-        self.hashtags = hashtags
+        self.count = count
 
     def __str__(self):
         """
