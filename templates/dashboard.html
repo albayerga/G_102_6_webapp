@@ -26,6 +26,7 @@
         // 'visited_docs' is the data coming from Python code.
         // load the python list in the JS variable 'visits_list':
         const visits_list = {{ visited_docs | tojson | safe }};
+        console.log("visited docs: ", visited_docs)
         console.log("visited docs: ")
         console.log(visits_list)
     </script>

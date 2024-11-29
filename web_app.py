@@ -152,10 +152,10 @@ def dashboard():
     for doc_id in analytics_data.fact_clicks.keys():
         d: Document = corpus[doc_id]
         doc = ClickedDoc(doc_id, d.tweet, analytics_data.fact_clicks[doc_id])
-        visited_docs.append(doc)
+        visited_docs.append(doc.to_dict())
 
-    # simulate sort by ranking
-    visited_docs.sort(key=lambda doc: doc.counter, reverse=True)
+    # sort by counter
+    visited_docs.sort(key=lambda doc: doc['counter'], reverse=True)
 
     for doc in visited_docs: print(doc)
     return render_template('dashboard.html', visited_docs=visited_docs)

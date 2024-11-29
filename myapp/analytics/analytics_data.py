@@ -28,8 +28,18 @@ class ClickedDoc:
         self.description = description
         self.counter = counter
 
-    def to_json(self):
-        return self.__dict__
+    def to_dict(self):
+        return {
+            "doc_id": self.doc_id,
+            "description": self.description,
+            "counter": self.counter,
+        }
+    
+    def safe(self):
+        """
+        Save the object to a persistence layer
+        """
+        print("Saving object to a persistence layer")
 
     def __str__(self):
         """
