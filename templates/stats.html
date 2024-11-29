@@ -12,4 +12,33 @@
         </div>
         <hr>
     {% endfor %}
+
+    <h3>Visited documents details</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Document ID</th>
+                <th>Description</th>
+                <th>Number of clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in visited_docs %}
+            <tr>
+                <td>{{ doc.doc_id }}</td>
+                <td>{{ doc.description }}</td>
+                <td>{{ doc.counter }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <p style="margin-top: 10px; color: gray; font-size: 0.9em;">
+        For more details, see the <a href="dashboard" style="color: #007bff; text-decoration: none;">Dashboard page</a>.
+    </p> -->
+    <div class="card-footer text-center">
+        <!-- <a href="#" class="btn btn-secondary" onclick="history.go(-2)">Go Back</a> -->
+        <a href="/dashboard" class="btn btn-info">View Dashboard</a>
+        <a href="/" class="btn btn-success">Go back</a>
+    </div>
+
 {% endblock %}

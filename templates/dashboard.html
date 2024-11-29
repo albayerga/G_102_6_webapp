@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block page_title %}{{ page_title }}{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
 {% block header %}
-    <!-- Next tag loads Charts.js https://www.chartjs.org/docs/latest/ -->
+    <!-- Carga de Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"
             integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -10,17 +10,87 @@
 
 {% block content %}
 
-    <!--
-    Examples of what to show in Dashboard:
+    <h2>General stadistics</h2>
+    <ul>
+        <li><strong>Total queries made:</strong> {{ query_stats }}</li>
+        <li><strong>Total unique visitors:</strong> {{ visitor_stats }}</li>
+        <li><strong>Total clicks on documents:</strong> {{ click_stats }}</li>
+        <li><strong>Total active sessions:</strong> {{ session_stats }}</li>
+        <li><strong>Average dwell time (in seconds):</strong> {{ avg_dwell_time | round(2) }}</li>
+    </ul>
+    <hr>
 
-    - Ranking of visited documents (from results page)
-    - Visitor's preferred browsers
-    - Visitor's city (from IP)
-    - preferred queries ranking
-    - preferred terms
-    - etc.
+    <h3>Graphics</h3>
+    <div style="display: flex; justify-content: space-around;">
+        <!-- Gráfico de clics por documento -->
+        <div>
+            <h4>Clicks per document</h4>
+            <p style="color: gray; font-size: 0.9em;">This shows the popularity of documents based on user interaction</p>
+            <canvas id="clicksByDocChart" width="400" height="400"></canvas>
+        </div>
+        <!-- Gráfico de sesiones por consultas -->
+        <div>
+            <h4>Queries per session</h4>
+            <p style="color: gray; font-size: 0.9em;">This shows the number of queries made during each user session</p>
+            <canvas id="queriesBySessionChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <hr>
 
-    -->
+    <script>
+        // Clics por documento
+        const clicksByDoc = {{ clicks_by_doc | tojson | safe }};
+        const docLabels = clicksByDoc.map(doc => "Doc: " + doc.doc_id);
+        const docClicks = clicksByDoc.map(doc => doc.clicks);
+
+        const clicksByDocChart = new Chart(
+            document.getElementById('clicksByDocChart').getContext('2d'),
+            {
+                type: 'bar',
+                data: {
+                    labels: docLabels,
+                    datasets: [{
+                        label: 'Clicks per document',
+                        data: docClicks,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true } }
+                }
+            }
+        );
+
+        // Consultas por sesión
+        fetch('/api/sessions')
+            .then(response => response.json())
+            .then(data => {
+                const sessionLabels = data.map(session => session.session_id);
+                const queriesPerSession = data.map(session => session.queries);
+
+                new Chart(
+                    document.getElementById('queriesBySessionChart').getContext('2d'),
+                    {
+                        type: 'line',
+                        data: {
+                            labels: sessionLabels,
+                            datasets: [{
+                                label: 'Queries per session',
+                                data: queriesPerSession,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: { y: { beginAtZero: true } }
+                        }
+                    }
+                );
+            });
+    </script>
 
     <script>
         // 'visited_docs' is the data coming from Python code.
@@ -67,100 +137,38 @@
 
     </script>
 
-    <hr>
-    <h5>Print Python data for verification with graph above...</h5>
-    {% for doc in visited_docs %}
-        <div class="pb-3">
-            <div class="">
-                <span class="text-dark"> ({{ doc.counter }} visits) </span> — id: {{ doc.doc_id }}
-                — {{ doc.description }}
-            </div>
-        </div>
-        <hr>
-    {% endfor %}
-
-
-
-    <script>
-        // another example
-        const data2 = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
-        // This will render the chart
-        new Chart(document.getElementById("dailyVisits2"), {
-            type: 'bar',
-            data: {
-                labels: myLabels,
-                datasets: [{
-                    data: [1, 2, 3],
-                    label: "Alberta",
-                    borderColor: "#3e95cd",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "BC",
-                    borderColor: "#8e5ea2",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "Manitoba",
-                    borderColor: "#3cba9f",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "New Brunswick",
-                    borderColor: "#e8c3b9",
-                    fill: false
-                }, {
-                    data: [1, 2, 3],
-                    label: "NL",
-                    borderColor: "#c45850",
-                    fill: false
-                }
-                ]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Some title'
-                },
-                hover: {
-                    mode: 'index',
-                    intersect: true
-                },
-            }
-        });
-
-
-    </script>
-
-
-    <canvas id="dailyVisits2" width="400" height="400"></canvas>
-
-
+    <!-- <h3>Visited documents details</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Document ID</th>
+                <th>Description</th>
+                <th>Number of clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in visited_docs %}
+            <tr>
+                <td>{{ doc.doc_id }}</td>
+                <td>{{ doc.description }}</td>
+                <td>{{ doc.counter }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> -->
+    
+    <!-- <p style="margin-top: 10px; color: gray; font-size: 0.9em;">
+        For more details, see the <a href="stats" style="color: #007bff; text-decoration: none;">Stats page</a>.
+    </p> -->
+    <div class="card-footer text-center">
+        <!-- <a href="#" class="btn btn-secondary" onclick="history.go(-2)">Go Back</a> -->
+        <a href="/stats" class="btn btn-info">View Stats</a>
+        <a href="/" class="btn btn-success">Go back</a>
+    </div>
 
 {% endblock %}
+
+    
+
 
 

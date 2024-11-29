@@ -32,6 +32,18 @@
     margin-inline-end: 0px;
     font-weight: bold;
 }
+.header a {
+    text-decoration: none; 
+    color: inherit;
+    display: inline-block;
+    font-size: inherit; 
+    font-weight: inherit; 
+}
+
+.header a:hover {
+    text-decoration: none;
+    color: inherit;
+}
 
 input[type=submit] {
     background-color: #c8102e;
